@@ -1,5 +1,7 @@
 # Bill of Materials
 
+> **Use the [CAD repository](https://github.com/fanhao375/microduck-replica-cad#装配-bom) for physical print files, materials and quantities.** MJCF reference counts and geometry estimates here describe the upstream model, not the latest Feetech print BOM.
+
 > ⚠️ **This English version lags behind the Chinese original.** Several corrections (camera rotation, MK1 part number, U10 placement, STS3032 torque basis, board SKU) were applied to the Chinese docs first. **When the two disagree, the Chinese version wins.** Last sync: 2026-09-05.
 
 [简体中文](BOM.md) · **English**
@@ -68,7 +70,7 @@ European inc-VAT retail runs **€603–629** (far above).
 
 | Part | Model | Qty | Basis / note |
 |---|---|---|---|
-| Compute | **Radxa Zero 3W** | 1 | device tree `compatible = "radxa,zero-3w"`. ⚠️ Several RAM/eMMC SKUs — the official spec page (2026-08-27) states **1 GB / 32 GB**, though the source tree carries no SKU evidence; **2G/16G recommended for a replica**. the OS image must carry the Rockchip vendor kernel (Armbian family) or the NPU does not exist |
+| Compute | **Radxa Zero 3W** | 1 | device tree `compatible = "radxa,zero-3w"`. Several RAM/eMMC SKUs. The official press kit states **1 GB RAM, 32 GB storage** (not necessarily eMMC); **a 1 GB or 2 GB board without eMMC plus a 32 GB microSD card is enough** — buy from official distributors (corrected 2026-10-12; the earlier 2G/16G eMMC advice was unnecessary). the OS image must carry the Rockchip vendor kernel (Armbian family) or the NPU does not exist |
 | Camera | Raspberry Pi Camera v2 (**IMX219**) | 1 | `setup-board.sh` applies the `radxa-zero3-rpi-camera-v2` overlay. ⚠️ **Mounted off-axis; corrected in software.** `media-bringup.md` says the alpha was upside down (`180`), but the current code default in `mediad/src/main.rs` is `--rotate 90`. Check against your build |
 | Depth | **VL53L8CX** or VL53L5CX module | 1 | firmware supports both, identified by revision ID; address `0x29` or `0x52`; Stemma/Qwiic |
 | Battery | **Sony NP-F550** (2S, 7.4 V) | 1 | ⚠️ see correction below |
@@ -200,45 +202,11 @@ many times each part is used: **60 in the servo bodies** (15 × 4), 21 in bought
 
 Derivation: [fastener reconstruction](docs/fastener-reconstruction.en.md).
 
-### Printed parts (29 types / 39 pieces)
+### Printed parts and the roller variant
 
-**Watch the quantities — 8 types need more than one:**
+**Models, quantities, materials and assembly instructions are maintained in the [CAD repository](https://github.com/fanhao375/microduck-replica-cad#装配-bom).** Select Feetech HD-1910 or XL330, then check the attachment version. This repository no longer publishes a second STL set or presents upstream mesh-reference counts as a current print BOM.
 
-| Part | Print |
-|---|---|
-| `leg_腿部` | **×4** |
-| `hip_l_髋部左` | ×2 |
-| `neck_颈部` | ×2 |
-| `power_support_电源支架` | ×2 |
-| `sole_left_左脚底` | ×2 |
-| `sole_right_右脚底` | ×2 |
-| `upper_leg_rigidity_plate_上腿加固板` | ×2 |
-| `yaw2roll_偏航转横滚` | ×2 |
-| The other 21 types | ×1 each |
-
-**Flexible-material parts** (from naming and function — TPU suggested):
-`jaw_soft_软下巴`, `soft_mouth_top_软嘴顶部`
-
-⚠️ **Do not confuse left and right.** `upper_leg_left` and `upper_leg_right` are mirrored
-(centroids +0.067 / −0.067) — you need both. Same for `ankle_*`, `sole_*`, `foot_*`.
-
-Files: [`print/`](print/).
-
-### Roller-skate variant (optional, extra)
-
-To reproduce the skating function, print **additionally** and substitute:
-
-| Part | Qty |
-|---|---|
-| `tire_轮胎` | **×8** |
-| `rim_轮辋` | **×4** |
-| `roller_blade_滚轮叶片` | ×2 |
-| `ankle_l_v1` / `ankle_r_v1` | ×1 each (**replaces** the standard ankles) |
-
-⚠️ **The skate ankles are 10 mm taller** than the standard ones (46.5 vs 36.5). The two sets are
-not interchangeable.
-
-See [`print/变体-轮滑/`](print/变体-轮滑/).
+Feetech v2.1 replaces the separate roller rim and tire with a combined TPU wheel; the older 09-15 3MF does not include it. See [printing and version notes](print/README.en.md). Walking parts and roller replacements are not interchangeable.
 
 ---
 

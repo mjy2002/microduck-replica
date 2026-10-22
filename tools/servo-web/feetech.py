@@ -140,8 +140,9 @@ class FeetechBus:
             raise BusError(f"等 id {expect_id} 的应答，来的是 id {sid}（ff ff {hexs(rest + body)}）")
         self.stats["rx_ok"] += 1
         if self.trace and self._last[1] not in self.trace_skip:
-            self.trace(f"← #{sid} 状态0x{err:02X} {hexs(b'\xff\xff' + rest + body)}"
-                       + (f"  数据 {list(params)}" if params else ""))
+            frame_hex = hexs(b'\xff\xff' + rest + body)
+            data_suffix = f"  数据 {list(params)}" if params else ""
+            self.trace(f"← #{sid} 状态0x{err:02X} {frame_hex}" + data_suffix)
         return sid, err, bytes(params)
 
     # ---- 指令 ----
@@ -196,16 +197,21 @@ class FeetechBus:
             self._send(BROADCAST, SYNC_WRITE, params)
 
     def sync_read(self, ids, addr, n):
-        """返回 {id: (err, params) 或 None}，顺序按 ids。任何一颗超时不影响后面的。"""
-        out = {}
+        """返回 {id: (err, params) 或 None}；按应答里的 ID 归档，缺包不连带丢后续包。"""
+        out = dict.fromkeys(ids)
         with self._io:
             self._send(BROADCAST, SYNC_READ, bytes([addr, n]) + bytes(ids))
-            for sid in ids:
+            for _ in ids:
                 try:
-                    _, err, params = self._read_status(sid)
-                    out[sid] = (err, params) if len(params) == n else None
+                    sid, err, params = self._read_status()
+                except BusTimeout:
+                    break
                 except BusError:
-                    out[sid] = None
+                    continue
+                if sid not in out:
+                    self.stats["bad_id"] += 1
+                elif len(params) == n and out[sid] is None:
+                    out[sid] = (err, params)
         return out
 
     def reboot(self, sid):

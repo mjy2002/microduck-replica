@@ -100,6 +100,7 @@ The community has a growing set of motion policies: `happy-hop`, `polite-bow`, `
 | [kabilankb/isaaclab-microduck](https://github.com/kabilankb/isaaclab-microduck) | 6 | Isaac Lab 3.0 / Newton MJWarp environments |
 | [Macmachi/microduck-rl-genesis](https://github.com/Macmachi/microduck-rl-genesis) | 2 | A Genesis port — **trains on AMD GPUs** |
 | [AlexBodner/microduck-tracking](https://github.com/AlexBodner/microduck-tracking) | 12 | Multi-object tracking |
+| [ftservo/ftservo-bam](https://gitee.com/ftservo/ftservo-bam) (Gitee, Feetech official) | — | Feetech's fork of Rhoban/BAM (Apache-2.0): adds **HD-1910** BAM parameters (m1–m6) and a dedicated controller model, plus HD-1910 / STS3215 recording scripts. Comparison with LuwuDynamics' 1910 M6: [provenance notes](HD-1910-M6参数来源.md#飞特官方-hd-1910-bam) (Chinese) |
 
 ### Replication and hardware
 
@@ -125,8 +126,8 @@ The community has a growing set of motion policies: `happy-hop`, `polite-bow`, `
 | If you want to… | Go to |
 |---|---|
 | Get a feel for it | The [official web simulator](https://huggingface.co/spaces/pollen-robotics/microduck-simulator) — open and play |
-| See what it looks like and how it goes together | [`cad/`](../cad/) and [`assembly-drawings/`](../assembly-drawings/) here |
-| Print parts | [`print/`](../print/) here |
+| Models and assembly instructions | [CAD repository](https://github.com/fanhao375/microduck-replica-cad); local renderings are upstream analysis references |
+| Print parts | [CAD repository](https://github.com/fanhao375/microduck-replica-cad); [version notes](../print/README.en.md) |
 | Understand the electronics | [`docs/hardware-teardown.en.md`](hardware-teardown.en.md) here |
 | Build the HAT board | `production/` in [`elec_RPI_Robot_HAT`](https://github.com/pollen-robotics/elec_RPI_Robot_HAT) — install `lib_KiCAD` first |
 | Train your own policy | [`microduck_rl`](https://github.com/pollen-robotics/microduck_rl); no NVIDIA GPU? use [microduck-lab](https://github.com/jonathanhawkins/microduck-lab) |
